@@ -60,7 +60,7 @@ const page = () => {
             <div className="flex  items-center justify-center h-[100%]">
                 <div className="w-[25%]">
                     <h1 className="text-5xl font-bold text-center mb-5">assessify.</h1>
-                    <p className='text-center mb-4 text-sm'>Create an Assessify account today and unlock a world of talent assessment possibilities!</p>
+                    <p className='text-center mb-4 text-sm'>Login to Assessify account today and use a world of talent assessment possibilities!</p>
 
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
@@ -77,20 +77,7 @@ const page = () => {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="workEmail"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input placeholder="Work Email" {...field} />
-                                        </FormControl>
-
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
+                            
                             <FormField
                                 control={form.control}
                                 name="password"
@@ -104,39 +91,18 @@ const page = () => {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="confirmPassword"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input placeholder="Confirm Password" type="password" {...field} />
-                                        </FormControl>
+                          
+                            <div className="flex justify-end mt-5">
+                            <Link href="/sign-in" className="text-center font-semibold ">Forgot Password?</Link>
 
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <div className="flex items-center space-x-2 pt-4">
-                                <Checkbox id="terms" />
-                                <Label
-                                    htmlFor="terms"
-                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                    Accept terms and conditions
-                                </Label>
-                            </div>
+                        </div>
                             <Button className="mt-5 text-1xl w-[100%] mx-auto" type="submit" onClick={() => {
                                 toast({
                                     description: "Wait you are being signed up",
                                 })
-                            }}>Sign Up</Button>
+                            }}>Login</Button>
                         </form>
-                        <div className="flex justify-center mt-5">
-                            <Link href="/sign-in" className="text-center font-semibold ">Already have an account?</Link>
-
-                        </div>
+                        
                     </Form>
                 </div>
             </div>
