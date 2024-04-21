@@ -37,8 +37,8 @@ const page = () => {
     const { toast } = useToast();
     const formSchema = z.object({
         username: z.string().min(6, { message: 'Username must be at least 6 characters' }),
-        email: z.string().email(),
-        password: z.string().min(5),
+        workEmail: z.string().email(),
+        password: z.string().min(5 , { message: 'Password must be at least 5 characters' }),
         confirmPassword: z.string().min(5),
         phoneNumber: z.string().min(6),
     })

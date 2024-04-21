@@ -37,10 +37,8 @@ const page = () => {
     const { toast } = useToast();
     const formSchema = z.object({
         username: z.string().min(6, { message: 'Username must be at least 6 characters' }),
-        email: z.string().email(),
-        password: z.string().min(5),
-        confirmPassword: z.string().min(5),
-        phoneNumber: z.string().min(6),
+        password: z.string().min(5, {message: 'Password must be at least 5 characters'}),
+
     })
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -98,7 +96,7 @@ const page = () => {
                         </div>
                             <Button className="mt-5 text-1xl w-[100%] mx-auto" type="submit" onClick={() => {
                                 toast({
-                                    description: "Wait you are being signed up",
+                                    description: "Wait you are being logged in",
                                 })
                             }}>Login</Button>
                         </form>
