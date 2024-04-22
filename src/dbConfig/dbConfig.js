@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 export async function connect(){
     try{
-        mongoose.connect(process.env.MONGO_URL);
-        const connection = mongoose.connection
+        const connectionString = 'mongodb+srv://ashirvalorantyt:ashirvalorantyt@cluster0.pf6ex.mongodb.net/e&authSource=admin';
+        mongoose.connect(connectionString);
+        const connection = mongoose.connection;
         connection.on('connected', ()=>{
             console.log('MongoDB Connected');
         })

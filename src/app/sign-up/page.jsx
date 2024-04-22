@@ -27,6 +27,9 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
+import axios from 'axios'
+
+
 const page = () => {
     useEffect(() => {
         AOS.init({
@@ -34,11 +37,18 @@ const page = () => {
             once: false,
         })
     }, [])
+    const sendDataToDatabase = async (formData) => {
+        await axios.post('/api/users/sign-up', {
+            username: formData.username,
+            workEmail: formData.workEmail,
+            password: formData.password
+        })
+    }
     const { toast } = useToast();
     const formSchema = z.object({
         username: z.string().min(6, { message: 'Username must be at least 6 characters' }),
         workEmail: z.string().email(),
-        password: z.string().min(5 , { message: 'Password must be at least 5 characters' }),
+        password: z.string().min(5, { message: 'Password must be at least 5 characters' }),
         confirmPassword: z.string().min(5),
         phoneNumber: z.string().min(6),
     })
@@ -127,10 +137,13 @@ const page = () => {
                                     Accept terms and conditions
                                 </Label>
                             </div>
+
+
                             <Button className="mt-5 text-1xl w-[100%] mx-auto" type="submit" onClick={() => {
                                 toast({
                                     description: "Wait you are being signed up",
-                                })
+                                });
+                                sendDataToDatabase(form.getValues());
                             }}>Sign Up</Button>
                         </form>
                         <div className="flex justify-center mt-5">
