@@ -27,7 +27,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-const page = () => {
+const Page = () => {
     useEffect(() => {
         AOS.init({
             duration: 800,
@@ -108,4 +108,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

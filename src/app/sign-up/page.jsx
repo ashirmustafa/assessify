@@ -30,7 +30,7 @@ import {
 import axios from 'axios'
 
 
-const page = () => {
+const Page = () => {
     useEffect(() => {
         AOS.init({
             duration: 800,
@@ -161,4 +161,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
