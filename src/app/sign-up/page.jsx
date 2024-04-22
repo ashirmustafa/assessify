@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
@@ -36,7 +36,8 @@ const page = () => {
             duration: 800,
             once: false,
         })
-    }, [])
+    }, []);
+
     const sendDataToDatabase = async (formData) => {
         await axios.post('/api/users/sign-up', {
             username: formData.username,
@@ -49,8 +50,10 @@ const page = () => {
         username: z.string().min(6, { message: 'Username must be at least 6 characters' }),
         workEmail: z.string().email(),
         password: z.string().min(5, { message: 'Password must be at least 5 characters' }),
-        confirmPassword: z.string().min(5),
-        phoneNumber: z.string().min(6),
+        confirmPassword: z.string().min(5)
+    }).refine((data)=> data.password === data.confirmPassword, {
+        message: 'Passwords do not match',
+        path: ["confirmPassword"],
     })
     const form = useForm({
         resolver: zodResolver(formSchema),
