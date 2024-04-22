@@ -9,7 +9,7 @@ connect();
 
 export async function POST(request) {
 
-  const {username, workEmail, password} = await request.json();
+  const { username, workEmail, password } = await request.json();
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
   var new_user = new User({
@@ -18,9 +18,12 @@ export async function POST(request) {
     password: hashedPassword
   });
 
+  const hashedVerifyToken = bcrypt.hashSync(new_user._id.toString(), salt);
+  new_user.verifyToken = hashedVerifyToken;
+  new_user.verifyTokenExpiry = Date.now() + 3600000;
   try {
     await new_user.save();
-    console.log('USER SAVED');
+    console.log('User: ' + username + ' saved successfully!');
     return NextResponse.json(new_user);
   } catch (error) {
     console.error('Error saving user:', error);
