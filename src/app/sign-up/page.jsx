@@ -50,7 +50,8 @@ const page = () => {
         username: z.string().min(6, { message: 'Username must be at least 6 characters' }),
         workEmail: z.string().email(),
         password: z.string().min(5, { message: 'Password must be at least 5 characters' }),
-        confirmPassword: z.string().min(5)
+        confirmPassword: z.string().min(5),
+        conditionTerms: z.boolean()
     }).refine((data)=> data.password === data.confirmPassword, {
         message: 'Passwords do not match',
         path: ["confirmPassword"],
@@ -61,8 +62,7 @@ const page = () => {
             username: "",
             workEmail: "",
             password: "",
-            confirmPassword: "",
-            phoneNumber: ""
+            confirmPassword: ""
         }
     });
     function onSubmit() {
@@ -136,6 +136,7 @@ const page = () => {
                                 <Label
                                     htmlFor="terms"
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    name="conditionTerms"
                                 >
                                     Accept terms and conditions
                                 </Label>
