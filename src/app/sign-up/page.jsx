@@ -57,11 +57,11 @@ const Page = () => {
         workEmail: z.string().email(),
         password: z.string().min(5, { message: 'Password must be at least 5 characters' }),
         agreeToTerms: z.boolean(),
-        confirmPassword: z.string().min(5),
+        confirmPassword: z.string(),
     }).refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords do not match',
         path: ["confirmPassword"]
-    }, (data)=> data.agreeToTerms === true, {
+    }, (data) => data.agreeToTerms === true, {
         message: 'You must agree to the terms and conditions',
         path: ["agreeToTerms"]
     })
@@ -78,6 +78,7 @@ const Page = () => {
     function onSubmit() {
         console.log('ONSUBMIT FUNCTION CALLED');
     }
+   
     return (
         <div className="h-[100vh]" data-aos="fade-up">
             <div className="flex  items-center justify-center h-[100%]">
@@ -164,10 +165,12 @@ const Page = () => {
 
 
 
-                            <Button className="mt-5 text-1xl w-[100%] mx-auto" type="submit" onClick={() => {
+
+                            <Button className="mt-5 text-1xl w-[100%] mx-auto"  type="submit" onClick={() => {
 
                                 sendDataToDatabase(form.getValues());
                             }}>Sign Up</Button>
+
                         </form>
                         <div className="flex justify-center mt-5">
                             <Link href="/sign-in" className="text-center font-semibold ">Already have an account?</Link>
