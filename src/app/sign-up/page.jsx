@@ -38,22 +38,32 @@ const Page = () => {
         })
     }, []);
 
-    const sendDataToDatabase = async (formData) => {
-        await axios.post('/api/users/sign-up', {
-            username: formData.username,
-            workEmail: formData.workEmail,
-            password: formData.password
-        })
-    }
     const { toast } = useToast();
+    const sendDataToDatabase = async (formData) => {
+        try {
+            await axios.post('/api/users/sign-up', {
+                username: formData.username,
+                workEmail: formData.workEmail,
+                password: formData.password
+            })
+        } catch (error) {
+            toast({
+                description: error.message,
+            });
+        }
+    }
     const formSchema = z.object({
         username: z.string().min(6, { message: 'Username must be at least 6 characters' }),
         workEmail: z.string().email(),
         password: z.string().min(5, { message: 'Password must be at least 5 characters' }),
-        confirmPassword: z.string().min(5)
+        agreeToTerms: z.boolean(),
+        confirmPassword: z.string().min(5),
     }).refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords do not match',
         path: ["confirmPassword"]
+    }, (data)=> data.agreeToTerms === true, {
+        message: 'You must agree to the terms and conditions',
+        path: ["agreeToTerms"]
     })
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -61,7 +71,8 @@ const Page = () => {
             username: "",
             workEmail: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            agreeToTerms: false,
         }
     });
     function onSubmit() {
@@ -129,23 +140,32 @@ const Page = () => {
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control={form.control}
+                                name="agreeToTerms"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <div className='flex align-items-center space-x-2'>
+                                                <Checkbox id="terms" {...field} />
+                                                <Label
+                                                    htmlFor="terms"
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                    name="conditionTerms"
+                                                >
+                                                    Accept terms and conditions
+                                                </Label>
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                            <div className="flex items-center space-x-2 pt-4">
-                                <Checkbox id="terms" />
-                                <Label
-                                    htmlFor="terms"
-                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    name="conditionTerms"
-                                >
-                                    Accept terms and conditions
-                                </Label>
-                            </div>
 
 
                             <Button className="mt-5 text-1xl w-[100%] mx-auto" type="submit" onClick={() => {
-                                toast({
-                                    description: "Wait you are being signed up",
-                                });
+
                                 sendDataToDatabase(form.getValues());
                             }}>Sign Up</Button>
                         </form>
